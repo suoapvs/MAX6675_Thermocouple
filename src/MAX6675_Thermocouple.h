@@ -4,12 +4,12 @@
 	and reading a temperature in Celsius, Fahrenheit and Kelvin.
 
 	Instantiation:
-		NTCThermistor thermistor(3, 4, 5);
+		MAX6675_Thermocouple thermocouple(3, 4, 5);
 
 	Read temperature:
-		thermistor.readCelsius();
-		thermistor.readKelvin();
-		thermistor.readFahrenheit();
+		thermocouple.readCelsius();
+		thermocouple.readKelvin();
+		thermocouple.readFahrenheit();
 
 	https://github.com/YuriiSalimov/MAX6675_Thermocouple
 	
@@ -53,18 +53,18 @@
 class MAX6675_Thermocouple final {
 
 	private:
-		int sckPin = 0;
-		int csPin = 0;
-		int soPin = 0;
+		int SCK_pin = 0;
+		int CS_pin = 0;
+		int SO_pin = 0;
 
 	public:
 		/**
 			Constructor.
-			@param clkPin - SCK digital port number.
-			@param csPin - CS digital port number.
-			@param soPin - SO digital port number.
+			@param SCK_pin - SCK digital port number.
+			@param CS_pin - CS digital port number.
+			@param SO_pin - SO digital port number.
 		*/
-		MAX6675_Thermocouple(const int sckPin, const int csPin, const int soPin);
+		MAX6675_Thermocouple(const int SCK_pin, const int CS_pin, const int SO_pin);
 
 		/**
 			Reads a temperature in Celsius from the thermocouple.

@@ -11,21 +11,21 @@
 #include "MAX6675_Thermocouple.h"
 
 MAX6675_Thermocouple::MAX6675_Thermocouple(
-	const int sckPin, 
-	const int csPin, 
-	const int soPin
+	const int SCK_pin,
+	const int CS_pin,
+	const int SO_pin
 ) {
-	this->sckPin = sckPin;
-	this->csPin = csPin;
-	this->soPin = soPin;
+	this->SCK_pin = SCK_pin;
+	this->CS_pin = CS_pin;
+	this->SO_pin = SO_pin;
 	init();
 }
 
 void MAX6675_Thermocouple::init() {
-	pinMode(this->csPin, OUTPUT);
-	pinMode(this->sckPin, OUTPUT); 
-	pinMode(this->soPin, INPUT);
-	digitalWrite(this->csPin, HIGH);	
+	pinMode(this->SCK_pin, OUTPUT); 
+	pinMode(this->CS_pin, OUTPUT);
+	pinMode(this->SO_pin, INPUT);
+	digitalWrite(this->CS_pin, HIGH);	
 }
 
 /**
@@ -71,12 +71,12 @@ double MAX6675_Thermocouple::readKelvin() {
 
 double MAX6675_Thermocouple::calcCelsius() {
 	int value;
-	digitalWrite(this->csPin, LOW);
+	digitalWrite(this->CS_pin, LOW);
 	delay(1);
 	value = spiread();
 	value <<= 8;
 	value |= spiread();
-	digitalWrite(this->csPin, HIGH);
+	digitalWrite(this->CS_pin, HIGH);
 	if (value & 0x4) {
 		return NAN; 
 	}
@@ -87,12 +87,12 @@ double MAX6675_Thermocouple::calcCelsius() {
 byte MAX6675_Thermocouple::spiread() { 
 	byte value = 0;
 	for (int i = 7; i >= 0; i--) {
-		digitalWrite(this->sckPin, LOW);
+		digitalWrite(this->SCK_pin, LOW);
 		delay(1);
-		if (digitalRead(this->soPin)) {
+		if (digitalRead(this->SO_pin)) {
 			value |= (1 << i);
 		}
-		digitalWrite(this->sckPin, HIGH);
+		digitalWrite(this->SCK_pin, HIGH);
 		delay(1);
 	}
 	return value;
