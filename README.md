@@ -15,7 +15,7 @@ Provides a temperature reading in Celsius, Fahrenheit and Kelvin.
 
 ## Circuit Diagram
 
-![Circuit Diagram](MAX6675_K_Type_Thermocouple.png)
+![Circuit Diagram](CircuitDiagram.png)
 
 ## Methods
 
