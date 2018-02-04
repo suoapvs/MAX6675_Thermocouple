@@ -5,6 +5,8 @@ For Arduino boards.
 The Library implements a set of methods for working with a thermocouple based on the MAX6675 driver.
 Provides a temperature reading in Celsius, Fahrenheit and Kelvin.
 
+MAX6675 driver measures the output of a K Thermocouple and provides the result to the Arduino via a SPI interface.
+
 ## Installation
 
 1. [Download](https://github.com/YuriiSalimov/MAX6675_Thermocouple/releases) the Latest release from gitHub.
@@ -16,6 +18,16 @@ Provides a temperature reading in Celsius, Fahrenheit and Kelvin.
 ## Circuit Diagram
 
 ![Circuit Diagram](CircuitDiagram.png)
+
+SO: The module’s serial output. Your Arduino will read this output.
+
+CS: Chip Select. Setting low, selects the Module and tells it to supply an output that is synchronize with a clock.
+
+SCK: The Serial Clock, an input from your Arduino.
+
+VCC: 5V supply
+
+GND: Ground.
 
 ## Methods
 
