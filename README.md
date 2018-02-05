@@ -4,6 +4,7 @@ For Arduino boards.
 
 The Library implements a set of methods for working with a thermocouple based on the MAX6675 driver.
 Provides a temperature reading in Celsius, Fahrenheit and Kelvin.
+Modified version of the [MAX6675-library](https://github.com/adafruit/MAX6675-library).
 
 MAX6675 driver measures the output of a K Thermocouple and provides the result to the Arduino via a SPI interface.
 
