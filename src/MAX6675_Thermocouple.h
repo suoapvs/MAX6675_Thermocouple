@@ -42,13 +42,13 @@
 	Celsius to Fahrenheit conversion:
 	F = C * 9 / 5 + 32
 */
-#define CELSIUS_TO_FAHRENHEIT(C) ((C * 9.0 / 5.0 + 32))
+#define CELSIUS_TO_FAHRENHEIT(C) (((C) * 9.0 / 5.0 + 32))
 
 /**
 	Celsius to Kelvin conversion:
 	K = C + 273.15
 */
-#define CELSIUS_TO_KELVINS(C) ((C + 273.15))
+#define CELSIUS_TO_KELVINS(C) (((C) + 273.15))
 
 class MAX6675_Thermocouple final {
 
