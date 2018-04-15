@@ -15,7 +15,7 @@
 #define CS_PIN  4
 #define SO_PIN  5
 
-MAX6675_Thermocouple* thermocouple;
+MAX6675_Thermocouple* thermocouple = NULL;
 
 void setup() {
   Serial.begin(9600);
@@ -27,5 +27,6 @@ void loop() {
   Serial.print(String(thermocouple->readCelsius()) + " C, ");
   Serial.print(String(thermocouple->readFahrenheit()) + " F, ");
   Serial.println(String(thermocouple->readKelvin()) + " K");
+  delay(1000);
 }
 
