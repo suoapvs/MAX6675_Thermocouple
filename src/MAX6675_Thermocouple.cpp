@@ -99,7 +99,11 @@ void MAX6675_Thermocouple::sleep() {
 */
 double MAX6675_Thermocouple::readFahrenheit() {
 	const double celsius = readCelsius();
-	return CELSIUS_TO_FAHRENHEIT(celsius);
+	return celsiusToFahrenheit(celsius);
+}
+
+double MAX6675_Thermocouple::celsiusToFahrenheit(const double celsius) {
+	return (celsius * 9.0 / 5.0 + 32);
 }
 
 double MAX6675_Thermocouple::readFarenheit() {
@@ -114,7 +118,11 @@ double MAX6675_Thermocouple::readFarenheit() {
 */
 double MAX6675_Thermocouple::readKelvin() {
 	const double celsius = readCelsius();
-	return CELSIUS_TO_KELVINS(celsius);
+	return celsiusToKelvins(celsius);
+}
+
+double MAX6675_Thermocouple::celsiusToKelvins(const double celsius) {
+	return (celsius + 273.15);
 }
 
 void MAX6675_Thermocouple::setReadingsNumber(const int newReadingsNumber) {

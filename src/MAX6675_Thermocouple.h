@@ -43,18 +43,6 @@
 #define MAX6675_DEFAULT_READINGS_NUMBER	5
 #define MAX6675_DEFAULT_DELAY_TIME	5
 
-/**
-	Celsius to Fahrenheit conversion:
-	F = C * 9 / 5 + 32
-*/
-#define CELSIUS_TO_FAHRENHEIT(C) (((C) * 9.0 / 5.0 + 32))
-
-/**
-	Celsius to Kelvin conversion:
-	K = C + 273.15
-*/
-#define CELSIUS_TO_KELVINS(C) (((C) + 273.15))
-
 class MAX6675_Thermocouple final {
 
 	private:
@@ -127,13 +115,25 @@ class MAX6675_Thermocouple final {
 			Initialization of module.
 		*/
 		void init();
-		
+
 		/**
 			Calculates a temperature in Celsius.
 			@return temperature in Celsius.
 		*/
 		double calcCelsius();
-	
+
+		/**
+			Celsius to Kelvin conversion:
+			K = C + 273.15
+		*/
+		double celsiusToKelvins(const double celsius);
+
+		/**
+			Celsius to Fahrenheit conversion:
+			F = C * 9 / 5 + 32
+		*/
+		double celsiusToFahrenheit(const double celsius);
+
 		byte spiread();
 
 		void sleep();
