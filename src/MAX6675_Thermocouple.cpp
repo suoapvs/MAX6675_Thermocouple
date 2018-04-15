@@ -14,10 +14,25 @@ MAX6675_Thermocouple::MAX6675_Thermocouple(
 	const int SCK_pin,
 	const int CS_pin,
 	const int SO_pin
+) : MAX6675_Thermocouple(
+		SCK_pin, CS_pin, SO_pin,
+		MAX6675_DEFAULT_READINGS_NUMBER,
+		MAX6675_DEFAULT_DELAY_TIME
+) {
+}
+
+MAX6675_Thermocouple::MAX6675_Thermocouple(
+	const int SCK_pin,
+	const int CS_pin,
+	const int SO_pin,
+	const int readingsNumber,
+	const long delayTime
 ) {
 	this->SCK_pin = SCK_pin;
 	this->CS_pin = CS_pin;
 	this->SO_pin = SO_pin;
+	setReadingsNumber(readingsNumber);
+	setDelayTime(delayTime);
 	init();
 }
 
@@ -30,43 +45,17 @@ void MAX6675_Thermocouple::init() {
 
 /**
 	Reads a temperature from the thermocouple.
-	Takes THERMOCOUPLE_READINGS_NUMBER samples in a row, 
-	with a slight delay THERMOCOUPLE_TIME_DELAY.
+	Takes a readings number samples in a row, 
+	with a slight delay time.
 	@return average temperature in Celsius.
 */
 double MAX6675_Thermocouple::readCelsius() {
 	double celsius = 0;
-	for (int i = 0; i < MAX6675_THERMOCOUPLE_READINGS_NUMBER; i++) {
+	for (int i = 0; i < this->readingsNumber; i++) {
 		celsius += calcCelsius();
-		delay(MAX6675_THERMOCOUPLE_TIME_DELAY);
+		sleep();
 	}
-	return (celsius / MAX6675_THERMOCOUPLE_READINGS_NUMBER);
-}
-
-/**
-	Returns a temperature in Fahrenheit.
-	Reads a temperature in Celsius, 
-	converts in Fahrenheit and return it.
-	@return temperature in Fahrenheit.
-*/
-double MAX6675_Thermocouple::readFahrenheit() {
-	const double celsius = readCelsius();
-	return CELSIUS_TO_FAHRENHEIT(celsius);
-}
-
-double MAX6675_Thermocouple::readFarenheit() {
-	return readFahrenheit();
-}
-
-/**
-	Returns a temperature in Kelvin.
-	Reads the temperature in Celsius, 
-	converts in Kelvin and return it.
-	@return temperature in Kelvin.
-*/
-double MAX6675_Thermocouple::readKelvin() {
-	const double celsius = readCelsius();
-	return CELSIUS_TO_KELVINS(celsius);
+	return (celsius / this->readingsNumber);
 }
 
 double MAX6675_Thermocouple::calcCelsius() {
@@ -96,4 +85,51 @@ byte MAX6675_Thermocouple::spiread() {
 		delay(1);
 	}
 	return value;
+}
+
+void MAX6675_Thermocouple::sleep() {
+	delay(this->delayTime);
+}
+
+/**
+	Returns a temperature in Fahrenheit.
+	Reads a temperature in Celsius, 
+	converts in Fahrenheit and return it.
+	@return temperature in Fahrenheit.
+*/
+double MAX6675_Thermocouple::readFahrenheit() {
+	const double celsius = readCelsius();
+	return CELSIUS_TO_FAHRENHEIT(celsius);
+}
+
+double MAX6675_Thermocouple::readFarenheit() {
+	return readFahrenheit();
+}
+
+/**
+	Returns a temperature in Kelvin.
+	Reads the temperature in Celsius, 
+	converts in Kelvin and return it.
+	@return temperature in Kelvin.
+*/
+double MAX6675_Thermocouple::readKelvin() {
+	const double celsius = readCelsius();
+	return CELSIUS_TO_KELVINS(celsius);
+}
+
+void MAX6675_Thermocouple::setReadingsNumber(const int newReadingsNumber) {
+	this->readingsNumber = validate(readingsNumber, MAX6675_DEFAULT_READINGS_NUMBER);
+}
+
+void MAX6675_Thermocouple::setDelayTime(const long newDelayTime) {
+	this->delayTime = validate(newDelayTime, MAX6675_DEFAULT_DELAY_TIME);
+}
+
+template <typename A, typename B> 
+A MAX6675_Thermocouple::validate(const A data, const B min) {
+	if (data > 0) {
+		return data;
+	} else {
+		return min;
+	}
 }
