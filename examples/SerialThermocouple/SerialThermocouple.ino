@@ -17,16 +17,21 @@
 
 MAX6675_Thermocouple* thermocouple = NULL;
 
+// the setup function runs once when you press reset or power the board
 void setup() {
   Serial.begin(9600);
   thermocouple = new MAX6675_Thermocouple(SCK_PIN, CS_PIN, SO_PIN);
 }
 
+// the loop function runs over and over again forever
 void loop() {
+  const double celsius = thermocouple->readCelsius();
+  const double kelvin = thermocouple->readKelvin();
+  const double fahrenheit = thermocouple->readFahrenheit();
   Serial.print("Temperature: ");
-  Serial.print(String(thermocouple->readCelsius()) + " C, ");
-  Serial.print(String(thermocouple->readFahrenheit()) + " F, ");
-  Serial.println(String(thermocouple->readKelvin()) + " K");
+  Serial.print(String(celsius) + " C, ");
+  Serial.print(String(kelvin) + " K, ");
+  Serial.println(String(fahrenheit) + " F");
   delay(500);
 }
 
