@@ -12,8 +12,7 @@ MAX6675 driver measures the output of a K Thermocouple and provides the result t
 
 1. [Download](https://github.com/YuriiSalimov/MAX6675_Thermocouple/releases) the Latest release from gitHub.
 2. Unzip and modify the Folder name to "MAX6675_Thermocouple" (Remove the '-version')
-3. Paste the modified folder on your Library folder 
-(On your `libraries` folder inside Sketchbooks or Arduino software).
+3. Paste the modified folder on your Library folder (On your `libraries` folder inside Sketchbooks or Arduino software).
 4. Restart the Arduino IDE.
 
 ## Circuit Diagram
@@ -32,24 +31,40 @@ GND: Ground.
 
 ## Methods
 
-```
+```cpp
+	// Instantiation:
     /**
         SCK_PIN - SCK digital port number.
         CS_PIN - CS digital port number.
         SO_PIN - SO digital port number.
     */
     MAX6675_Thermocouple thermocouple(SCK_PIN, CS_PIN, SO_PIN);
-    
+
+	// or
+    /**
+    	READINGS_NUMBER - How many readings are taken to determine
+        a mean temperature. The more values, the longer a calibration
+        is performed, but the readings will be more accurate.
+    	DELAY_TIME - Delay time between a temperature readings (ms).
+    */
+    MAX6675_Thermocouple thermocouple(
+		SCK_pin, CS_pin, SO_pin,
+		READINGS_NUMBER, DELAY_TIME
+	);
+
     // Read a temperature in Celsius.
-    thermocouple.readCelsius();
-    
+    double celsius = thermocouple.readCelsius();
     // Read a temperature in Kelvin.
-    thermocouple.readKelvin();
-	
+    double Kelvin = thermocouple.readKelvin();
     // Read a temperature in Fahrenheit.
-    thermocouple.readFahrenheit();
+    double fahrenheit = thermocouple.readFahrenheit();
     // For older devices.
-    thermocouple.readFarenheit();
+    double farenheit = thermocouple.readFarenheit();
+
+	// Sets a new readings number.
+    thermocouple.setReadingsNumber(READINGS_NUMBER);
+    // Sets a new delay time.
+    thermocouple.setDelayTime(DELAY_TIME);
 ```
 
 Created by Yurii Salimov.
