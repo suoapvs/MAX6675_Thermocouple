@@ -32,7 +32,7 @@ GND: Ground.
 ## Methods
 
 ```cpp
-	// Instantiation:
+    // Instantiation:
     /**
         SCK_PIN - SCK digital port number.
         CS_PIN - CS digital port number.
@@ -40,7 +40,7 @@ GND: Ground.
     */
     MAX6675_Thermocouple thermocouple(SCK_PIN, CS_PIN, SO_PIN);
 
-	// or
+    // or
     /**
     	READINGS_NUMBER - How many readings are taken to determine
         a mean temperature. The more values, the longer a calibration
@@ -61,7 +61,7 @@ GND: Ground.
     // For older devices.
     double farenheit = thermocouple.readFarenheit();
 
-	// Sets a new readings number.
+    // Sets a new readings number.
     thermocouple.setReadingsNumber(READINGS_NUMBER);
     // Sets a new delay time.
     thermocouple.setDelayTime(DELAY_TIME);
