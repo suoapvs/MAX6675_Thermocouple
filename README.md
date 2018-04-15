@@ -48,9 +48,10 @@ GND: Ground.
     	DELAY_TIME - Delay time between a temperature readings (ms).
     */
     MAX6675_Thermocouple thermocouple(
-		SCK_pin, CS_pin, SO_pin,
-		READINGS_NUMBER, DELAY_TIME
-	);
+        SCK_pin, CS_pin, SO_pin,
+        READINGS_NUMBER,
+        DELAY_TIME
+    );
 
     // Read a temperature in Celsius.
     double celsius = thermocouple.readCelsius();
