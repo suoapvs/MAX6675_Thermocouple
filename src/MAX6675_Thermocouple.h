@@ -11,13 +11,12 @@
 			READINGS_NUMBER, DELAY_TIME
 		);
 
-		Where, 
-
+		Where,
 		READINGS_NUMBER - How many readings are taken 
 		to determine a mean temperature. The more values, 
 		the longer a calibration is performed, but the readings 
 		will be more accurate.
-		
+
 		DELAY_TIME - Delay time between a temperature readings 
 		from the temperature sensor (ms).
 
@@ -27,7 +26,7 @@
 		double fahrenheit = thermocouple.readFahrenheit();
 
 	https://github.com/YuriiSalimov/MAX6675_Thermocouple
-	
+
 	Created by Yurii Salimov, February, 2018.
 	Released into the public domain.
 */
@@ -91,6 +90,11 @@ class MAX6675_Thermocouple final {
 		double readCelsius();
 
 		/**
+			Returns a temperature in Kelvin.
+		*/
+		double readKelvin();
+
+		/**
 			Returns a temperature in Fahrenheit.
 		*/
 		double readFahrenheit();
@@ -100,11 +104,6 @@ class MAX6675_Thermocouple final {
 			(For older devices.)
 		*/
 		double readFarenheit();
-
-		/**
-			Returns a temperature in Kelvin.
-		*/
-		double readKelvin();
 
 		void setReadingsNumber(const int newReadingsNumber);
 

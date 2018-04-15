@@ -50,12 +50,12 @@ void MAX6675_Thermocouple::init() {
 	@return average temperature in Celsius.
 */
 double MAX6675_Thermocouple::readCelsius() {
-	double celsius = 0;
+	double celsiusSum = 0;
 	for (int i = 0; i < this->readingsNumber; i++) {
-		celsius += calcCelsius();
+		celsiusSum += calcCelsius();
 		sleep();
 	}
-	return (celsius / this->readingsNumber);
+	return (celsiusSum / this->readingsNumber);
 }
 
 double MAX6675_Thermocouple::calcCelsius() {
@@ -92,25 +92,6 @@ void MAX6675_Thermocouple::sleep() {
 }
 
 /**
-	Returns a temperature in Fahrenheit.
-	Reads a temperature in Celsius, 
-	converts in Fahrenheit and return it.
-	@return temperature in Fahrenheit.
-*/
-double MAX6675_Thermocouple::readFahrenheit() {
-	const double celsius = readCelsius();
-	return celsiusToFahrenheit(celsius);
-}
-
-double MAX6675_Thermocouple::celsiusToFahrenheit(const double celsius) {
-	return (celsius * 9.0 / 5.0 + 32);
-}
-
-double MAX6675_Thermocouple::readFarenheit() {
-	return readFahrenheit();
-}
-
-/**
 	Returns a temperature in Kelvin.
 	Reads the temperature in Celsius, 
 	converts in Kelvin and return it.
@@ -121,8 +102,19 @@ double MAX6675_Thermocouple::readKelvin() {
 	return celsiusToKelvins(celsius);
 }
 
-double MAX6675_Thermocouple::celsiusToKelvins(const double celsius) {
-	return (celsius + 273.15);
+/**
+	Returns a temperature in Fahrenheit.
+	Reads a temperature in Celsius, 
+	converts in Fahrenheit and return it.
+	@return temperature in Fahrenheit.
+*/
+double MAX6675_Thermocouple::readFahrenheit() {
+	const double celsius = readCelsius();
+	return celsiusToFahrenheit(celsius);
+}
+
+double MAX6675_Thermocouple::readFarenheit() {
+	return readFahrenheit();
 }
 
 void MAX6675_Thermocouple::setReadingsNumber(const int newReadingsNumber) {
@@ -140,4 +132,12 @@ A MAX6675_Thermocouple::validate(const A data, const B min) {
 	} else {
 		return min;
 	}
+}
+
+double MAX6675_Thermocouple::celsiusToKelvins(const double celsius) {
+	return (celsius + 273.15);
+}
+
+double MAX6675_Thermocouple::celsiusToFahrenheit(const double celsius) {
+	return (celsius * 9.0 / 5.0 + 32);
 }

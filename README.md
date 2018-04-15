@@ -67,4 +67,4 @@ GND: Ground.
     thermocouple.setDelayTime(DELAY_TIME);
 ```
 
-Created by Yurii Salimov.
+Created by [Yurii Salimov](mailto:yuriy.alex.salimov@gmail.com).

@@ -27,6 +27,6 @@ void loop() {
   Serial.print(String(thermocouple->readCelsius()) + " C, ");
   Serial.print(String(thermocouple->readFahrenheit()) + " F, ");
   Serial.println(String(thermocouple->readKelvin()) + " K");
-  delay(1000);
+  delay(500);
 }
 
