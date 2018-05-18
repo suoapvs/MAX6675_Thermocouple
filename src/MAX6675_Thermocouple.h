@@ -1,6 +1,6 @@
 /**
-	MAX6675_Thermocouple.h - The interface describes a set of methods 
-	for working with a thermocouple based on the MAX6675 driver 
+	MAX6675_Thermocouple.h - The interface describes a set of methods
+	for working with a thermocouple based on the MAX6675 driver
 	and reading a temperature in Celsius, Fahrenheit and Kelvin.
 
 	Instantiation:
@@ -12,12 +12,12 @@
 		);
 
 		Where,
-		READINGS_NUMBER - How many readings are taken 
-		to determine a mean temperature. The more values, 
-		the longer a calibration is performed, but the readings 
+		READINGS_NUMBER - How many readings are taken
+		to determine a mean temperature. The more values,
+		the longer a calibration is performed, but the readings
 		will be more accurate.
 
-		DELAY_TIME - Delay time between a temperature readings 
+		DELAY_TIME - Delay time between a temperature readings
 		from the temperature sensor (ms).
 
 	Read temperature:
@@ -60,8 +60,8 @@ class MAX6675_Thermocouple final {
 			@param SO_pin - SO digital port number.
 		*/
 		MAX6675_Thermocouple(
-			const int SCK_pin, 
-			const int CS_pin, 
+			const int SCK_pin,
+			const int CS_pin,
 			const int SO_pin
 		);
 
@@ -70,21 +70,21 @@ class MAX6675_Thermocouple final {
 			@param SCK_pin - SCK digital port number.
 			@param CS_pin - CS digital port number.
 			@param SO_pin - SO digital port number.
-			@param readingsNumber - how many readings are 
+			@param readingsNumber - how many readings are
 				taken to determine a mean temperature.
-			@param delayTime - delay time between 
+			@param delayTime - delay time between
 				a temperature readings (ms).
 		*/
 		MAX6675_Thermocouple(
-			const int SCK_pin, 
-			const int CS_pin, 
+			const int SCK_pin,
+			const int CS_pin,
 			const int SO_pin,
 			const int readingsNumber,
 			const long delayTime
 		);
 
 		/**
-			Reads and returns a temperature in Celsius 
+			Reads and returns a temperature in Celsius
 			from the thermocouple.
 		*/
 		double readCelsius();
