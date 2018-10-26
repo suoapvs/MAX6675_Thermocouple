@@ -48,12 +48,12 @@
 class MAX6675_Thermocouple final {
 
 	private:
-		int SCK_pin = 0;
-		int CS_pin = 0;
-		int SO_pin = 0;
+		int SCK_pin;
+		int CS_pin;
+		int SO_pin;
 
-		volatile int readingsNumber = 0;
-		volatile long delayTime = 0;
+		volatile int readingsNumber;
+		volatile long delayTime;
 
 	public:
 		/**
