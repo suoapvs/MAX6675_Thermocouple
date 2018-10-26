@@ -25,6 +25,9 @@
 		double kelvin = thermocouple.readKelvin();
 		double fahrenheit = thermocouple.readFahrenheit();
 
+	v.1.1.2:
+	- optimized calls of private methods.
+
 	https://github.com/YuriiSalimov/MAX6675_Thermocouple
 
 	Created by Yurii Salimov, February, 2018.
@@ -113,29 +116,29 @@ class MAX6675_Thermocouple final {
 		/**
 			Initialization of module.
 		*/
-		void init();
+		inline void init();
 
 		/**
 			Calculates a temperature in Celsius.
 			@return temperature in Celsius.
 		*/
-		double calcCelsius();
+		inline double calcCelsius();
 
 		/**
 			Celsius to Kelvin conversion:
 			K = C + 273.15
 		*/
-		double celsiusToKelvins(const double celsius);
+		inline double celsiusToKelvins(const double celsius);
 
 		/**
 			Celsius to Fahrenheit conversion:
 			F = C * 9 / 5 + 32
 		*/
-		double celsiusToFahrenheit(const double celsius);
+		inline double celsiusToFahrenheit(const double celsius);
 
 		byte spiread();
 
-		void sleep();
+		inline void sleep();
 
 		template <typename A, typename B> A validate(const A data, const B min);
 };

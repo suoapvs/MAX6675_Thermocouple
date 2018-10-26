@@ -36,7 +36,7 @@ MAX6675_Thermocouple::MAX6675_Thermocouple(
 	init();
 }
 
-void MAX6675_Thermocouple::init() {
+inline void MAX6675_Thermocouple::init() {
 	pinMode(this->SCK_pin, OUTPUT);
 	pinMode(this->CS_pin, OUTPUT);
 	pinMode(this->SO_pin, INPUT);
@@ -58,7 +58,7 @@ double MAX6675_Thermocouple::readCelsius() {
 	return (celsiusSum / this->readingsNumber);
 }
 
-double MAX6675_Thermocouple::calcCelsius() {
+inline double MAX6675_Thermocouple::calcCelsius() {
 	int value;
 	digitalWrite(this->CS_pin, LOW);
 	delay(1);
@@ -87,7 +87,7 @@ byte MAX6675_Thermocouple::spiread() {
 	return value;
 }
 
-void MAX6675_Thermocouple::sleep() {
+inline void MAX6675_Thermocouple::sleep() {
 	delay(this->delayTime);
 }
 
@@ -99,6 +99,10 @@ void MAX6675_Thermocouple::sleep() {
 */
 double MAX6675_Thermocouple::readKelvin() {
 	return celsiusToKelvins(readCelsius());
+}
+
+inline double MAX6675_Thermocouple::celsiusToKelvins(const double celsius) {
+	return (celsius + 273.15);
 }
 
 /**
@@ -115,6 +119,10 @@ double MAX6675_Thermocouple::readFarenheit() {
 	return readFahrenheit();
 }
 
+inline double MAX6675_Thermocouple::celsiusToFahrenheit(const double celsius) {
+	return (celsius * 9.0 / 5.0 + 32);
+}
+
 void MAX6675_Thermocouple::setReadingsNumber(const int newReadingsNumber) {
 	this->readingsNumber = validate(readingsNumber, MAX6675_DEFAULT_READINGS_NUMBER);
 }
@@ -126,12 +134,4 @@ void MAX6675_Thermocouple::setDelayTime(const long newDelayTime) {
 template <typename A, typename B>
 A MAX6675_Thermocouple::validate(const A data, const B min) {
 	return (data > 0) ? data : min;
-}
-
-double MAX6675_Thermocouple::celsiusToKelvins(const double celsius) {
-	return (celsius + 273.15);
-}
-
-double MAX6675_Thermocouple::celsiusToFahrenheit(const double celsius) {
-	return (celsius * 9.0 / 5.0 + 32);
 }
