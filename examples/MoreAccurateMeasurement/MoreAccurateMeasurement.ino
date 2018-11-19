@@ -12,21 +12,21 @@
 #include <MAX6675_Thermocouple.h>
 
 #define SCK_PIN 3
-#define CS_PIN  4
-#define SO_PIN  5
+#define CS_PIN 4
+#define SO_PIN 5
 
 /**
    How many readings are taken to determine a mean temperature.
    The more values, the longer a calibration is performed,
    but the readings will be more accurate.
 */
-#define READINGS_NUMBER  10
+#define READINGS_NUMBER 10
 
 /**
    Delay time between a temperature readings
    from the temperature sensor (ms).
 */
-#define DELAY_TIME  100
+#define DELAY_TIME 20
 
 MAX6675_Thermocouple* thermocouple = NULL;
 
@@ -55,4 +55,3 @@ void loop() {
   Serial.println(String(fahrenheit) + " F");
   delay(500);
 }
-
