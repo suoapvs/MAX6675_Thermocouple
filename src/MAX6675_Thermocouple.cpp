@@ -59,10 +59,9 @@ double MAX6675_Thermocouple::readCelsius() {
 }
 
 inline double MAX6675_Thermocouple::calcCelsius() {
-	int value;
 	digitalWrite(this->CS_pin, LOW);
 	delay(1);
-	value = spiread();
+	int value = spiread();
 	value <<= 8;
 	value |= spiread();
 	digitalWrite(this->CS_pin, HIGH);
@@ -101,10 +100,6 @@ double MAX6675_Thermocouple::readKelvin() {
 	return celsiusToKelvins(readCelsius());
 }
 
-inline double MAX6675_Thermocouple::celsiusToKelvins(const double celsius) {
-	return (celsius + 273.15);
-}
-
 /**
 	Returns a temperature in Fahrenheit.
 	Reads a temperature in Celsius,
@@ -119,12 +114,16 @@ double MAX6675_Thermocouple::readFarenheit() {
 	return readFahrenheit();
 }
 
+inline double MAX6675_Thermocouple::celsiusToKelvins(const double celsius) {
+	return (celsius + 273.15);
+}
+
 inline double MAX6675_Thermocouple::celsiusToFahrenheit(const double celsius) {
 	return (celsius * 9.0 / 5.0 + 32);
 }
 
 void MAX6675_Thermocouple::setReadingsNumber(const int newReadingsNumber) {
-	this->readingsNumber = validate(readingsNumber, MAX6675_DEFAULT_READINGS_NUMBER);
+	this->readingsNumber = validate(newReadingsNumber, MAX6675_DEFAULT_READINGS_NUMBER);
 }
 
 void MAX6675_Thermocouple::setDelayTime(const long newDelayTime) {
@@ -132,6 +131,6 @@ void MAX6675_Thermocouple::setDelayTime(const long newDelayTime) {
 }
 
 template <typename A, typename B>
-A MAX6675_Thermocouple::validate(const A data, const B min) {
-	return (data > 0) ? data : min;
+A MAX6675_Thermocouple::validate(const A data, const B alternative) {
+	return (data > 0) ? data : alternative;
 }
