@@ -28,6 +28,9 @@
 	v.1.1.2:
 	- optimized calls of private methods.
 
+	v.1.1.3:
+	- Fixed bug in setReadingsNumber() method.
+
 	https://github.com/YuriiSalimov/MAX6675_Thermocouple
 
 	Created by Yurii Salimov, February, 2018.
@@ -51,7 +54,6 @@ class MAX6675_Thermocouple final {
 		int SCK_pin;
 		int CS_pin;
 		int SO_pin;
-
 		volatile int readingsNumber;
 		volatile long delayTime;
 
@@ -63,9 +65,9 @@ class MAX6675_Thermocouple final {
 			@param SO_pin - SO digital port number.
 		*/
 		MAX6675_Thermocouple(
-			const int SCK_pin,
-			const int CS_pin,
-			const int SO_pin
+			int SCK_pin,
+			int CS_pin,
+			int SO_pin
 		);
 
 		/**
@@ -79,11 +81,11 @@ class MAX6675_Thermocouple final {
 				a temperature readings (ms).
 		*/
 		MAX6675_Thermocouple(
-			const int SCK_pin,
-			const int CS_pin,
-			const int SO_pin,
-			const int readingsNumber,
-			const long delayTime
+			int SCK_pin,
+			int CS_pin,
+			int SO_pin,
+			int readingsNumber,
+			long delayTime
 		);
 
 		/**
@@ -108,9 +110,9 @@ class MAX6675_Thermocouple final {
 		*/
 		double readFarenheit();
 
-		void setReadingsNumber(const int newReadingsNumber);
+		void setReadingsNumber(int newReadingsNumber);
 
-		void setDelayTime(const long newDelayTime);
+		void setDelayTime(long newDelayTime);
 
 	private:
 		/**
@@ -128,19 +130,23 @@ class MAX6675_Thermocouple final {
 			Celsius to Kelvin conversion:
 			K = C + 273.15
 		*/
-		inline double celsiusToKelvins(const double celsius);
+		inline double celsiusToKelvins(double celsius);
 
 		/**
 			Celsius to Fahrenheit conversion:
 			F = C * 9 / 5 + 32
 		*/
-		inline double celsiusToFahrenheit(const double celsius);
+		inline double celsiusToFahrenheit(double celsius);
 
 		byte spiread();
 
 		inline void sleep();
 
-		template <typename A, typename B> A validate(const A data, const B min);
+		/**
+			Returns the data if it is valid,
+			otherwise returns alternative data.
+		*/
+		template <typename A, typename B> A validate(A data, B alternative);
 };
 
 #endif
