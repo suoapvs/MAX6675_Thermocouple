@@ -47,7 +47,8 @@ inline void MAX6675_Thermocouple::init() {
 	Reads a temperature from the thermocouple.
 	Takes a readings number samples in a row,
 	with a slight delay time.
-	@return average temperature in Celsius.
+	@return average temperature in Celsius
+	or NAN if no thermocouple attached!
 */
 double MAX6675_Thermocouple::readCelsius() {
 	double celsiusSum = 0;

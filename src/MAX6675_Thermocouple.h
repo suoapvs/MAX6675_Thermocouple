@@ -54,8 +54,8 @@ class MAX6675_Thermocouple final {
 		int SCK_pin;
 		int CS_pin;
 		int SO_pin;
-		volatile int readingsNumber;
-		volatile long delayTime;
+		int readingsNumber;
+		long delayTime;
 
 	public:
 		/**
@@ -91,16 +91,19 @@ class MAX6675_Thermocouple final {
 		/**
 			Reads and returns a temperature in Celsius
 			from the thermocouple.
+			Returns NAN if no thermocouple attached!
 		*/
 		double readCelsius();
 
 		/**
 			Returns a temperature in Kelvin.
+			Returns NAN if no thermocouple attached!
 		*/
 		double readKelvin();
 
 		/**
 			Returns a temperature in Fahrenheit.
+			Returns NAN if no thermocouple attached!
 		*/
 		double readFahrenheit();
 
