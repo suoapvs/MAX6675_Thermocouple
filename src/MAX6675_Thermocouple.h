@@ -119,11 +119,6 @@ class MAX6675_Thermocouple final {
 
 	private:
 		/**
-			Initialization of module.
-		*/
-		inline void init();
-
-		/**
 			Calculates a temperature in Celsius.
 			@return temperature in Celsius.
 		*/

@@ -28,19 +28,12 @@ MAX6675_Thermocouple::MAX6675_Thermocouple(
 	const int readingsNumber,
 	const long delayTime
 ) {
-	this->SCK_pin = SCK_pin;
-	this->CS_pin = CS_pin;
-	this->SO_pin = SO_pin;
+	pinMode(this->SCK_pin = SCK_pin, OUTPUT);
+	pinMode(this->CS_pin = CS_pin, OUTPUT);
+	pinMode(this->SO_pin = SO_pin, INPUT);
+	digitalWrite(this->CS_pin, HIGH);
 	setReadingsNumber(readingsNumber);
 	setDelayTime(delayTime);
-	init();
-}
-
-inline void MAX6675_Thermocouple::init() {
-	pinMode(this->SCK_pin, OUTPUT);
-	pinMode(this->CS_pin, OUTPUT);
-	pinMode(this->SO_pin, INPUT);
-	digitalWrite(this->CS_pin, HIGH);
 }
 
 /**
