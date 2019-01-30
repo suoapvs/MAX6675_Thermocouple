@@ -31,6 +31,9 @@
 	v.1.1.3:
 	- Fixed bug in setReadingsNumber() method.
 
+	v.1.1.4:
+	- Removed deprecated init() method.
+
 	https://github.com/YuriiSalimov/MAX6675_Thermocouple
 
 	Created by Yurii Salimov, February, 2018.
