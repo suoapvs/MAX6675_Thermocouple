@@ -76,12 +76,14 @@ byte MAX6675_Thermocouple::spiread() {
 	byte value = 0;
 	for (int i = 7; i >= 0; i--) {
 		digitalWrite(this->SCK_pin, LOW);
-		delay(1);
+		// delay(1);
+        delayMicroseconds(1);
 		if (digitalRead(this->SO_pin)) {
 			value |= (1 << i);
 		}
 		digitalWrite(this->SCK_pin, HIGH);
-		delay(1);
+        delayMicroseconds(1);
+		// delay(1);
 	}
 	return value;
 }
