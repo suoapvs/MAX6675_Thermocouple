@@ -69,3 +69,9 @@ GND: Ground.
 ```
 
 Created by [Yurii Salimov](mailto:yuriy.alex.salimov@gmail.com).
+
+Modified by [Konosubakonoakua](https://github.com/konosubakonoakua).
+
+> - read more quickly
+> - use hardware SPI by setting `#define USE_HW_SPI 1`
+> - use freertos delay by setting `#define USE_FREERTOS_DELAY 1`

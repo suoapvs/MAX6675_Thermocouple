@@ -10,6 +10,10 @@
 */
 #include "MAX6675_Thermocouple.h"
 
+#define USE_FREERTOS_DELAY 1
+static const int spiClk = 4000000UL; 
+static const int MAX6675_CONVERSION_TIME = 220;
+
 MAX6675_Thermocouple::MAX6675_Thermocouple(
 	const int SCK_pin,
 	const int CS_pin,
@@ -36,11 +40,32 @@ MAX6675_Thermocouple::MAX6675_Thermocouple(
 	init();
 }
 
+MAX6675_Thermocouple::MAX6675_Thermocouple(
+	SPIClass* spi,
+	int CS_pin
+) 
+{
+	this->SCK_pin = -1;
+	this->CS_pin = CS_pin;
+	this->SO_pin = -1;
+	setReadingsNumber(1);
+	setDelayTime(1);
+	_spi = spi;
+	init();
+}
+
 inline void MAX6675_Thermocouple::init() {
-	pinMode(this->SCK_pin, OUTPUT);
 	pinMode(this->CS_pin, OUTPUT);
-	pinMode(this->SO_pin, INPUT);
 	digitalWrite(this->CS_pin, HIGH);
+
+	#if USE_HW_SPI == 1
+	_spi->begin();
+	#else
+	pinMode(this->SCK_pin, OUTPUT);
+	pinMode(this->SO_pin, INPUT);
+	#endif
+
+
 }
 
 /**
@@ -59,12 +84,20 @@ double MAX6675_Thermocouple::readCelsius() {
 }
 
 inline double MAX6675_Thermocouple::calcCelsius() {
-	digitalWrite(this->CS_pin, LOW);
-	delay(1);
-	int value = spiread();
-	value <<= 8;
-	value |= spiread();
-	digitalWrite(this->CS_pin, HIGH);
+
+	int value;
+
+	#if USE_HW_SPI == 1
+		value = spiread_hw();
+	#else
+		digitalWrite(this->CS_pin, LOW);
+		delay(1);	
+		value = spiread();
+		value <<= 8;
+		value |= spiread();
+		digitalWrite(this->CS_pin, HIGH);
+	#endif
+
 	if (value & 0x4) {
 		return NAN;
 	}
@@ -76,18 +109,34 @@ byte MAX6675_Thermocouple::spiread() {
 	byte value = 0;
 	for (int i = 7; i >= 0; i--) {
 		digitalWrite(this->SCK_pin, LOW);
-		// delay(1);
-        delayMicroseconds(1);
+		delayMicroseconds(1);
 		if (digitalRead(this->SO_pin)) {
 			value |= (1 << i);
 		}
 		digitalWrite(this->SCK_pin, HIGH);
-        delayMicroseconds(1);
-		// delay(1);
+		delayMicroseconds(1);
 	}
 	return value;
 }
-
+#if USE_HW_SPI == 1
+	int MAX6675_Thermocouple::spiread_hw() {
+		int value = 0;
+		digitalWrite(this->CS_pin, LOW);
+		delayMicroseconds(1);
+		digitalWrite(this->CS_pin, HIGH);
+		#if USE_FREERTOS_DELAY == 0
+			delay(MAX6675_CONVERSION_TIME);
+		#else
+			vTaskDelay(MAX6675_CONVERSION_TIME);
+		#endif
+		_spi->beginTransaction(SPISettings(spiClk, MSBFIRST, SPI_MODE0));
+		digitalWrite(this->CS_pin, LOW);
+		value = _spi->transfer16(0x00);
+		digitalWrite(this->CS_pin, HIGH);
+		_spi->endTransaction();
+		return value;
+	}
+#endif
 inline void MAX6675_Thermocouple::sleep() {
 	delay(this->delayTime);
 }

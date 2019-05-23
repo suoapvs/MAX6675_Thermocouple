@@ -45,8 +45,14 @@
 	#include <WProgram.h>
 #endif
 
-#define MAX6675_DEFAULT_READINGS_NUMBER	5
-#define MAX6675_DEFAULT_DELAY_TIME	5
+#define MAX6675_DEFAULT_READINGS_NUMBER	1
+#define MAX6675_DEFAULT_DELAY_TIME	1
+
+#define USE_HW_SPI 1
+
+#if USE_HW_SPI == 1
+#include "SPI.h"
+#endif
 
 class MAX6675_Thermocouple final {
 
@@ -56,6 +62,9 @@ class MAX6675_Thermocouple final {
 		int SO_pin;
 		volatile int readingsNumber;
 		volatile long delayTime;
+		#if USE_HW_SPI == 1
+		SPIClass* _spi;
+		#endif
 
 	public:
 		/**
@@ -69,7 +78,12 @@ class MAX6675_Thermocouple final {
 			int CS_pin,
 			int SO_pin
 		);
-
+		#if USE_HW_SPI == 1
+			MAX6675_Thermocouple(
+				SPIClass* spi,
+				int CS_pin
+			);
+		#endif
 		/**
 			Constructor.
 			@param SCK_pin - SCK digital port number.
@@ -139,7 +153,9 @@ class MAX6675_Thermocouple final {
 		inline double celsiusToFahrenheit(double celsius);
 
 		byte spiread();
-
+		#if USE_HW_SPI == 1
+		int spiread_hw();
+		#endif
 		inline void sleep();
 
 		/**
