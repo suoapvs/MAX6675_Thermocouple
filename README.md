@@ -40,19 +40,6 @@ GND: Ground.
     */
     MAX6675_Thermocouple thermocouple(SCK_PIN, CS_PIN, SO_PIN);
 
-    // or
-    /**
-    	READINGS_NUMBER - How many readings are taken to determine
-        a mean temperature. The more values, the longer a calibration
-        is performed, but the readings will be more accurate.
-    	DELAY_TIME - Delay time between a temperature readings (ms).
-    */
-    MAX6675_Thermocouple thermocouple(
-        SCK_pin, CS_pin, SO_pin,
-        READINGS_NUMBER,
-        DELAY_TIME
-    );
-
     // Read a temperature in Celsius.
     double celsius = thermocouple.readCelsius();
     // Read a temperature in Kelvin.
@@ -61,13 +48,16 @@ GND: Ground.
     double fahrenheit = thermocouple.readFahrenheit();
     // For older devices.
     double farenheit = thermocouple.readFarenheit();
-
-    // Sets a new readings number.
-    thermocouple.setReadingsNumber(READINGS_NUMBER);
-    // Sets a new delay time.
-    thermocouple.setDelayTime(DELAY_TIME);
 ```
 
-See [examples](/examples)...
+### Examples
+
+[Serial Reading](/examples/SerialReading/SerialReading.ino)
+
+[Average Measurement](/examples/AverageMeasurement/AverageMeasurement.ino)
+
+[Smooth Measurement](/examples/SmoothMeasurement/SmoothMeasurement.ino)
+
+[All examples...](/examples)
 
 Created by Yurii Salimov.
