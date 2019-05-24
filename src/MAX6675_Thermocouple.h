@@ -4,26 +4,14 @@
 	and reading a temperature in Celsius, Fahrenheit and Kelvin.
 
 	Instantiation:
-		MAX6675_Thermocouple thermocouple(SCK_pin, CS_pin, SO_pin);
-		or
-		MAX6675_Thermocouple thermocouple(
-			SCK_pin, CS_pin, SO_pin,
-			READINGS_NUMBER, DELAY_TIME
-		);
-
-		Where,
-		READINGS_NUMBER - How many readings are taken
-		to determine a mean temperature. The more values,
-		the longer a calibration is performed, but the readings
-		will be more accurate.
-
-		DELAY_TIME - Delay time between a temperature readings
-		from the temperature sensor (ms).
+	Thermocouple* thermocouple = new MAX6675_Thermocouple(
+		SCK_pin, CS_pin, SO_pin
+	);
 
 	Read temperature:
-		double celsius = thermocouple.readCelsius();
-		double kelvin = thermocouple.readKelvin();
-		double fahrenheit = thermocouple.readFahrenheit();
+	double celsius = thermocouple->readCelsius();
+	double kelvin = thermocouple->readKelvin();
+	double fahrenheit = thermocouple->readFahrenheit();
 
 	v.1.1.2:
 	- optimized calls of private methods.
@@ -34,6 +22,10 @@
 	v.1.1.4:
 	- Removed deprecated init() method.
 
+	v.2.0.0
+	- implemented Thermocouple interface;
+	- removed methods for averaging result.
+
 	https://github.com/YuriiSalimov/MAX6675_Thermocouple
 
 	Created by Yurii Salimov, February, 2018.
@@ -42,23 +34,14 @@
 #ifndef MAX6675_THERMOCOUPLE_H
 #define MAX6675_THERMOCOUPLE_H
 
-#if defined(ARDUINO) && (ARDUINO >= 100)
-	#include <Arduino.h>
-#else
-	#include <WProgram.h>
-#endif
+#include "Thermocouple.h"
 
-#define MAX6675_DEFAULT_READINGS_NUMBER	5
-#define MAX6675_DEFAULT_DELAY_TIME	5
-
-class MAX6675_Thermocouple final {
+class MAX6675_Thermocouple final : public Thermocouple {
 
 	private:
 		int SCK_pin;
 		int CS_pin;
 		int SO_pin;
-		int readingsNumber;
-		long delayTime;
 
 	public:
 		/**
@@ -74,80 +57,49 @@ class MAX6675_Thermocouple final {
 		);
 
 		/**
-			Constructor.
-			@param SCK_pin - SCK digital port number.
-			@param CS_pin - CS digital port number.
-			@param SO_pin - SO digital port number.
-			@param readingsNumber - how many readings are
-				taken to determine a mean temperature.
-			@param delayTime - delay time between
-				a temperature readings (ms).
-		*/
-		MAX6675_Thermocouple(
-			int SCK_pin,
-			int CS_pin,
-			int SO_pin,
-			int readingsNumber,
-			long delayTime
-		);
+			Reads a temperature in Celsius from the thermocouple.
 
-		/**
-			Reads and returns a temperature in Celsius
-			from the thermocouple.
-			Returns NAN if no thermocouple attached!
+			@return temperature in degree Celsius or
+			NAN if no thermocouple attached
 		*/
 		double readCelsius();
 
 		/**
-			Returns a temperature in Kelvin.
-			Returns NAN if no thermocouple attached!
+			Reads a temperature in Kelvin from the thermocouple.
+
+			@return temperature in degree Kelvin or
+			NAN if no thermocouple attached
 		*/
 		double readKelvin();
 
 		/**
-			Returns a temperature in Fahrenheit.
-			Returns NAN if no thermocouple attached!
+			Reads a temperature in Fahrenheit from the thermocouple.
+
+			@return temperature in degree Fahrenheit or
+			NAN if no thermocouple attached
 		*/
 		double readFahrenheit();
 
-		/**
-			Returns a temperature in Fahrenheit.
-			(For older devices.)
-		*/
-		double readFarenheit();
-
-		void setReadingsNumber(int newReadingsNumber);
-
-		void setDelayTime(long newDelayTime);
-
 	private:
-		/**
-			Calculates a temperature in Celsius.
-			@return temperature in Celsius.
-		*/
-		inline double calcCelsius();
+		byte spiread();
 
 		/**
 			Celsius to Kelvin conversion:
 			K = C + 273.15
+
+			@param celsius - temperature in degree Celsius to convert
+			@return temperature in degree Kelvin
 		*/
 		inline double celsiusToKelvins(double celsius);
 
 		/**
 			Celsius to Fahrenheit conversion:
-			F = C * 9 / 5 + 32
+			F = C * 1.8 + 32
+
+			@param celsius - temperature in degree Celsius to convert
+			@return temperature in degree Fahrenheit
 		*/
 		inline double celsiusToFahrenheit(double celsius);
-
-		byte spiread();
-
-		inline void sleep();
-
-		/**
-			Returns the data if it is valid,
-			otherwise returns alternative data.
-		*/
-		template <typename A, typename B> A validate(A data, B alternative);
 };
 
 #endif

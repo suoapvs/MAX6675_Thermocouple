@@ -1,10 +1,4 @@
 /**
-	The class implements a set of methods of the MAX6675_Thermocouple.h
-	interface for working with a thermocouple based on the MAX6675
-	driver and reading a temperature in Celsius, Fahrenheit and Kelvin.
-
-	https://github.com/YuriiSalimov/MAX6675_Thermocouple
-
 	Created by Yurii Salimov, February, 2018.
 	Released into the public domain.
 */
@@ -14,45 +8,14 @@ MAX6675_Thermocouple::MAX6675_Thermocouple(
 	const int SCK_pin,
 	const int CS_pin,
 	const int SO_pin
-) : MAX6675_Thermocouple(
-		SCK_pin, CS_pin, SO_pin,
-		MAX6675_DEFAULT_READINGS_NUMBER,
-		MAX6675_DEFAULT_DELAY_TIME
-) {
-}
-
-MAX6675_Thermocouple::MAX6675_Thermocouple(
-	const int SCK_pin,
-	const int CS_pin,
-	const int SO_pin,
-	const int readingsNumber,
-	const long delayTime
 ) {
 	pinMode(this->SCK_pin = SCK_pin, OUTPUT);
 	pinMode(this->CS_pin = CS_pin, OUTPUT);
 	pinMode(this->SO_pin = SO_pin, INPUT);
 	digitalWrite(this->CS_pin, HIGH);
-	setReadingsNumber(readingsNumber);
-	setDelayTime(delayTime);
 }
 
-/**
-	Reads a temperature from the thermocouple.
-	Takes a readings number samples in a row,
-	with a slight delay time.
-	@return average temperature in Celsius
-	or NAN if no thermocouple attached!
-*/
 double MAX6675_Thermocouple::readCelsius() {
-	double celsiusSum = 0;
-	for (int i = 0; i < this->readingsNumber; i++) {
-		celsiusSum += calcCelsius();
-		sleep();
-	}
-	return (celsiusSum / this->readingsNumber);
-}
-
-inline double MAX6675_Thermocouple::calcCelsius() {
 	digitalWrite(this->CS_pin, LOW);
 	delay(1);
 	int value = spiread();
@@ -64,6 +27,28 @@ inline double MAX6675_Thermocouple::calcCelsius() {
 	}
 	value >>= 3;
 	return (value * 0.25);
+}
+
+/**
+	Returns a temperature in Kelvin.
+	Reads the temperature in Celsius,
+	converts in Kelvin and return it.
+
+	@return temperature in degree Kelvin
+*/
+double MAX6675_Thermocouple::readKelvin() {
+	return celsiusToKelvins(readCelsius());
+}
+
+/**
+	Returns a temperature in Fahrenheit.
+	Reads a temperature in Celsius,
+	converts in Fahrenheit and return it.
+
+	@return temperature in degree Fahrenheit
+*/
+double MAX6675_Thermocouple::readFahrenheit() {
+	return celsiusToFahrenheit(readCelsius());
 }
 
 byte MAX6675_Thermocouple::spiread() {
@@ -80,51 +65,10 @@ byte MAX6675_Thermocouple::spiread() {
 	return value;
 }
 
-inline void MAX6675_Thermocouple::sleep() {
-	delay(this->delayTime);
-}
-
-/**
-	Returns a temperature in Kelvin.
-	Reads the temperature in Celsius,
-	converts in Kelvin and return it.
-	@return temperature in Kelvin.
-*/
-double MAX6675_Thermocouple::readKelvin() {
-	return celsiusToKelvins(readCelsius());
-}
-
-/**
-	Returns a temperature in Fahrenheit.
-	Reads a temperature in Celsius,
-	converts in Fahrenheit and return it.
-	@return temperature in Fahrenheit.
-*/
-double MAX6675_Thermocouple::readFahrenheit() {
-	return celsiusToFahrenheit(readCelsius());
-}
-
-double MAX6675_Thermocouple::readFarenheit() {
-	return readFahrenheit();
-}
-
 inline double MAX6675_Thermocouple::celsiusToKelvins(const double celsius) {
 	return (celsius + 273.15);
 }
 
 inline double MAX6675_Thermocouple::celsiusToFahrenheit(const double celsius) {
 	return (celsius * 9.0 / 5.0 + 32);
-}
-
-void MAX6675_Thermocouple::setReadingsNumber(const int newReadingsNumber) {
-	this->readingsNumber = validate(newReadingsNumber, MAX6675_DEFAULT_READINGS_NUMBER);
-}
-
-void MAX6675_Thermocouple::setDelayTime(const long newDelayTime) {
-	this->delayTime = validate(newDelayTime, MAX6675_DEFAULT_DELAY_TIME);
-}
-
-template <typename A, typename B>
-A MAX6675_Thermocouple::validate(const A data, const B alternative) {
-	return (data > 0) ? data : alternative;
 }
