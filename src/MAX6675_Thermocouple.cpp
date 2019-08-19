@@ -53,7 +53,7 @@ double MAX6675_Thermocouple::readFahrenheit() {
 
 byte MAX6675_Thermocouple::spiread() {
 	byte value = 0;
-	for (int i = 7; i >= 0; i--) {
+	for (int i = 7; i >= 0; --i) {
 		digitalWrite(this->SCK_pin, LOW);
 		delay(1);
 		if (digitalRead(this->SO_pin)) {
@@ -70,5 +70,5 @@ inline double MAX6675_Thermocouple::celsiusToKelvins(const double celsius) {
 }
 
 inline double MAX6675_Thermocouple::celsiusToFahrenheit(const double celsius) {
-	return (celsius * 9.0 / 5.0 + 32);
+	return (celsius * 1.8 + 32);
 }

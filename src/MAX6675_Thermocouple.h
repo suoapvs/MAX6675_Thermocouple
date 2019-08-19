@@ -1,5 +1,5 @@
 /**
-	MAX6675_Thermocouple.h - The interface describes a set of methods
+	MAX6675_Thermocouple - class describes a set of methods
 	for working with a thermocouple based on the MAX6675 driver
 	and reading a temperature in Celsius, Fahrenheit and Kelvin.
 
@@ -26,6 +26,10 @@
 	- implemented Thermocouple interface;
 	- removed methods for averaging result.
 
+	v.2.0.1
+  - optimized celsiusToFahrenheit() method;
+  - updated documentation.
+
 	https://github.com/YuriiSalimov/MAX6675_Thermocouple
 
 	Created by Yurii Salimov, February, 2018.
@@ -45,10 +49,11 @@ class MAX6675_Thermocouple final : public Thermocouple {
 
 	public:
 		/**
-			Constructor.
-			@param SCK_pin - SCK digital port number.
-			@param CS_pin - CS digital port number.
-			@param SO_pin - SO digital port number.
+			Constructor
+
+			@param SCK_pin - SCK digital port number
+			@param CS_pin - CS digital port number
+			@param SO_pin - SO digital port number
 		*/
 		MAX6675_Thermocouple(
 			int SCK_pin,
