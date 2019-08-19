@@ -10,8 +10,8 @@ AverageThermocouple::AverageThermocouple(
   const int delayTimeInMillis
 ) {
   this->origin = origin;
-  this->readingsNumber = validate(readingsNumber, NTC_AVERAGE_READINGS_NUMBER);
-  this->delayTime = validate(delayTimeInMillis, NTC_AVERAGE_DELAY_TIME);
+  this->readingsNumber = validate(readingsNumber, THERMOCOUPLE_DEFAULT_AVERAGE_READINGS_NUMBER);
+  this->delayTime = validate(delayTimeInMillis, THERMOCOUPLE_DEFAULT_AVERAGE_DELAY_TIME);
 }
 
 AverageThermocouple::~AverageThermocouple() {
@@ -19,24 +19,21 @@ AverageThermocouple::~AverageThermocouple() {
 }
 
 double AverageThermocouple::readCelsius() {
-  return average(&Thermocouple::readCelsius, this->origin);
+  return average(&Thermocouple::readCelsius);
 }
 
 double AverageThermocouple::readKelvin() {
-  return average(&Thermocouple::readKelvin, this->origin);
+  return average(&Thermocouple::readKelvin);
 }
 
 double AverageThermocouple::readFahrenheit() {
-  return average(&Thermocouple::readFahrenheit, this->origin);
+  return average(&Thermocouple::readFahrenheit);
 }
 
-double AverageThermocouple::average(
-  double (Thermocouple::*read)(),
-  Thermocouple* thermocouple
-) {
+inline double AverageThermocouple::average(double (Thermocouple::*read)()) {
   double sum = 0;
-  for (int i = 0; i < this->readingsNumber; i++) {
-    sum += (thermocouple->*read)();
+  for (int i = 0; i < this->readingsNumber; ++i) {
+    sum += (this->origin->*read)();
     sleep();
   }
   return (sum / this->readingsNumber);
@@ -47,6 +44,6 @@ inline void AverageThermocouple::sleep() {
 }
 
 template <typename A, typename B>
-A AverageThermocouple::validate(A data, B alternative) {
+inline A AverageThermocouple::validate(A data, B alternative) {
   return (data > 0) ? data : alternative;
 }

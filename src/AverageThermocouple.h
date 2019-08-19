@@ -1,5 +1,5 @@
 /**
-  AverageThermocoupler.h - class-wrapper allows to average
+  AverageThermocoupler - class-wrapper allows to average
   the temperature value of origin Thermocouple instance.
 
   Instantiation:
@@ -26,6 +26,12 @@
   v.2.0.0
   - created
 
+  v.2.0.1
+  - optimized average(*) method;
+  - renamed default constants;
+  - added default value of constructor parameters;
+  - updated documentation.
+
   https://github.com/YuriiSalimov/MAX6675_Thermocouple
 
   Created by Yurii Salimov, May, 2019.
@@ -37,9 +43,9 @@
 #include "Thermocouple.h"
 
 // Default number of average readings.
-#define NTC_AVERAGE_READINGS_NUMBER	10
+#define THERMOCOUPLE_DEFAULT_AVERAGE_READINGS_NUMBER 10
 // Default delay time of average readings.
-#define NTC_AVERAGE_DELAY_TIME	1
+#define THERMOCOUPLE_DEFAULT_AVERAGE_DELAY_TIME 1
 
 class AverageThermocouple final : public Thermocouple {
 
@@ -52,14 +58,14 @@ class AverageThermocouple final : public Thermocouple {
     /**
       Constructor
 
-      @param origin - origin Thermocouple instance.
-      @param readingsNumber - average readings number
-      @param delayTimeInMillis - average delay time (in milliseconds)
+      @param origin - origin Thermocouple instance (not NULL)
+      @param readingsNumber - average readings number (default, 10)
+      @param delayTimeInMillis - average delay time in milliseconds (default, 1 ms)
     */
     AverageThermocouple(
       Thermocouple* origin,
-      int readingsNumber,
-      int delayTimeInMillis
+      int readingsNumber = THERMOCOUPLE_DEFAULT_AVERAGE_READINGS_NUMBER,
+      int delayTimeInMillis = THERMOCOUPLE_DEFAULT_AVERAGE_DELAY_TIME
     );
 
     /**
@@ -95,14 +101,10 @@ class AverageThermocouple final : public Thermocouple {
       "readingsNumber" times with delay "delayTimeInMillis".
       Returns the average value.
 
-      @param *read - origin method that return temperature
-      @param thermocouple - origin Thermocouple instance
+      @param *read - origin method that return temperature (not NULL)
       @return average temperature from the input *read() method
     */
-    double average(
-      double (Thermocouple::*read)(),
-      Thermocouple* thermocouple
-    );
+    inline double average(double (Thermocouple::*read)());
 
     /**
       For delay between readings.
@@ -117,7 +119,8 @@ class AverageThermocouple final : public Thermocouple {
       @returns the data if it is valid (> 0),
       otherwise returns alternative data.
     */
-    template <typename A, typename B> A validate(A data, B alternative);
+    template <typename A, typename B>
+    inline A validate(A data, B alternative);
 };
 
 #endif
