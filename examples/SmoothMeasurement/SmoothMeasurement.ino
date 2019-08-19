@@ -14,15 +14,13 @@
 #include <SmoothThermocouple.h>
 
 #define SCK_PIN 3
-#define CS_PIN  4
-#define SO_PIN  5
+#define CS_PIN 4
+#define SO_PIN 5
 
 /**
-  How many readings are taken to determine a mean temperature.
-  The more values, the longer a calibration is performed,
-  but the readings will be more accurate.
+  Smoothing factor of a temperature value.
 */
-#define SMOOTH_FACTOR 5
+#define SMOOTHING_FACTOR 5
 
 Thermocouple* thermocouple = NULL;
 
@@ -30,10 +28,15 @@ Thermocouple* thermocouple = NULL;
 void setup() {
   Serial.begin(9600);
 
-  thermocouple = new SmoothThermocouple(
-    new MAX6675_Thermocouple(SCK_PIN, CS_PIN, SO_PIN),
-    SMOOTH_FACTOR
-  );
+  Thermocouple* originThermocouple = new MAX6675_Thermocouple(SCK_PIN, CS_PIN, SO_PIN);
+  thermocouple = new SmoothThermocouple(originThermocouple, SMOOTHING_FACTOR);
+
+  /* OR
+    thermocouple = new SmoothThermocouple(
+      new MAX6675_Thermocouple(SCK_PIN, CS_PIN, SO_PIN),
+      SMOOTHING_FACTOR
+    );
+  */
 }
 
 // the loop function runs over and over again forever
@@ -52,5 +55,5 @@ void loop() {
   Serial.print(fahrenheit);
   Serial.println(" F");
 
-  delay(500); // To delay the output of information.
+  delay(500); // optionally, only to delay the output of information in the example.
 }

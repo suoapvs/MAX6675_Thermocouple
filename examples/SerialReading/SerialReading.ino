@@ -13,8 +13,8 @@
 #include <MAX6675_Thermocouple.h>
 
 #define SCK_PIN 3
-#define CS_PIN  4
-#define SO_PIN  5
+#define CS_PIN 4
+#define SO_PIN 5
 
 Thermocouple* thermocouple;
 
@@ -41,5 +41,5 @@ void loop() {
   Serial.print(fahrenheit);
   Serial.println(" F");
 
-  delay(500); // To delay the output of information.
+  delay(500); // optionally, only to delay the output of information in the example.
 }

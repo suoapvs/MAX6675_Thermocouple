@@ -14,21 +14,21 @@
 #include <AverageThermocouple.h>
 
 #define SCK_PIN 3
-#define CS_PIN  4
-#define SO_PIN  5
+#define CS_PIN 4
+#define SO_PIN 5
 
 /**
   How many readings are taken to determine a mean temperature.
   The more values, the longer a calibration is performed,
   but the readings will be more accurate.
 */
-#define READINGS_NUMBER  10
+#define READINGS_NUMBER 10
 
 /**
   Delay time between a temperature readings
   from the temperature sensor (ms).
 */
-#define DELAY_TIME  10
+#define DELAY_TIME 10
 
 Thermocouple* thermocouple = NULL;
 
@@ -36,11 +36,20 @@ Thermocouple* thermocouple = NULL;
 void setup() {
   Serial.begin(9600);
 
+  Thermocouple* originThermocouple = new MAX6675_Thermocouple(SCK_PIN, CS_PIN, SO_PIN);
   thermocouple = new AverageThermocouple(
-    new MAX6675_Thermocouple(SCK_PIN, CS_PIN, SO_PIN),
+    originThermocouple,
     READINGS_NUMBER,
     DELAY_TIME
   );
+
+  /* OR
+    thermocouple = new AverageThermocouple(
+      new MAX6675_Thermocouple(SCK_PIN, CS_PIN, SO_PIN),
+      READINGS_NUMBER,
+      DELAY_TIME
+    );
+  */
 }
 
 // the loop function runs over and over again forever
@@ -59,5 +68,5 @@ void loop() {
   Serial.print(fahrenheit);
   Serial.println(" F");
 
-  delay(100); // To delay the output of information.
+  delay(100); // optionally, only to delay the output of information in the example.
 }
