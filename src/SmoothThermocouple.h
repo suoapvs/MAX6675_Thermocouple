@@ -21,7 +21,7 @@
 
   v.2.0.1
   - optimized smoothe(*) method;
-  - added default constants for the smoothing factor;
+  - added default constant for the smoothing factor;
   - added default value of constructor parameters;
   - updated documentation.
 
@@ -37,8 +37,6 @@
 
 // Minimum smoothing factor.
 #define THERMOCOUPLE_MIN_SMOOTHING_FACTOR 2
-// Default smoothing factor.
-#define THERMOCOUPLE_DEFAULT_SMOOTHING_FACTOR 2
 
 class SmoothThermocouple final : public Thermocouple {
 
@@ -58,7 +56,7 @@ class SmoothThermocouple final : public Thermocouple {
     */
     SmoothThermocouple(
       Thermocouple* origin,
-      int smoothingFactor = THERMOCOUPLE_DEFAULT_SMOOTHING_FACTOR
+      int smoothingFactor = THERMOCOUPLE_MIN_SMOOTHING_FACTOR
     );
 
     /**
@@ -95,14 +93,14 @@ class SmoothThermocouple final : public Thermocouple {
       @param input - the value to smooth
       @param data - the data for smoothing of the input value
       @return smoothed value or the input value
-      if the smooth factor is less than 1 or the input data is 0.
+      if the input data is 0.
     */
     inline double smoothe(double input, double data);
 
     /**
       Sets the smoothing factor.
-      If the input value is less than NTC_MIN_SMOOTHING_FACTOR,
-      then sets NTC_DEFAULT_SMOOTHING_FACTOR.
+      If the input value is less than THERMOCOUPLE_MIN_SMOOTHING_FACTOR,
+      then sets THERMOCOUPLE_MIN_SMOOTHING_FACTOR.
 
       @param smoothingFactor - new smoothing factor
     */

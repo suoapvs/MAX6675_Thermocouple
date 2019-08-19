@@ -44,8 +44,10 @@ double SmoothThermocouple::smoothe(
     ((data * (this->smoothingFactor - 1) + input) / this->smoothingFactor);
 }
 
+/*
+  See about the max(*) function:
+  https://www.arduino.cc/reference/en/language/functions/math/max/
+*/
 inline void SmoothThermocouple::setSmoothingFactor(const int smoothingFactor) {
-  this->smoothingFactor = (smoothingFactor > THERMOCOUPLE_MIN_SMOOTHING_FACTOR) ?
-    smoothingFactor :
-    THERMOCOUPLE_DEFAULT_SMOOTHING_FACTOR;
+  this->smoothingFactor = max(smoothingFactor, THERMOCOUPLE_MIN_SMOOTHING_FACTOR);
 }
