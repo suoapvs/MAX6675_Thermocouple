@@ -1,5 +1,5 @@
 /**
-	Thermocouple.h - interface describes a set of methods
+	Thermocouple - interface describes a set of methods
 	for working with a thermocouple sensor and reading
 	a temperature in Celsius, Fahrenheit and Kelvin.
 
