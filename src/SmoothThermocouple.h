@@ -1,5 +1,5 @@
 /**
-  SmoothThermocouple.h - class-wrapper allows to smooth
+  SmoothThermocouple - class-wrapper allows to smooth
   the temperature value of origin Thermocouple instance.
 
   Instantiation:
@@ -19,6 +19,12 @@
   v.2.0.0
   - created
 
+  v.2.0.1
+  - optimized smoothe(*) method;
+  - added default constants for the smoothing factor;
+  - added default value of constructor parameters;
+  - updated documentation.
+
   https://github.com/YuriiSalimov/MAX6675_Thermocouple
 
   Created by Yurii Salimov, May, 2019.
@@ -29,11 +35,16 @@
 
 #include "Thermocouple.h"
 
+// Minimum smoothing factor.
+#define THERMOCOUPLE_MIN_SMOOTHING_FACTOR 2
+// Default smoothing factor.
+#define THERMOCOUPLE_DEFAULT_SMOOTHING_FACTOR 2
+
 class SmoothThermocouple final : public Thermocouple {
 
   private:
     Thermocouple* origin;
-    int factor;
+    int smoothingFactor;
     double celsius = 0;
     double kelvin = 0;
     double fahrenheit = 0;
@@ -43,9 +54,12 @@ class SmoothThermocouple final : public Thermocouple {
       Constructor
 
       @param origin - origin Thermocouple instance.
-      @param factor - smoothing factor of a temperature value
+      @param smoothingFactor - smoothing factor of a temperature value
     */
-    SmoothThermocouple(Thermocouple* origin, int factor);
+    SmoothThermocouple(
+      Thermocouple* origin,
+      int smoothingFactor = THERMOCOUPLE_DEFAULT_SMOOTHING_FACTOR
+    );
 
     /**
       Destructor
@@ -83,7 +97,16 @@ class SmoothThermocouple final : public Thermocouple {
       @return smoothed value or the input value
       if the smooth factor is less than 1 or the input data is 0.
     */
-    double smoothe(double input, double data);
+    inline double smoothe(double input, double data);
+
+    /**
+      Sets the smoothing factor.
+      If the input value is less than NTC_MIN_SMOOTHING_FACTOR,
+      then sets NTC_DEFAULT_SMOOTHING_FACTOR.
+
+      @param smoothingFactor - new smoothing factor
+    */
+    inline void setSmoothingFactor(int smoothingFactor);
 };
 
 #endif

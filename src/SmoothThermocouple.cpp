@@ -6,10 +6,10 @@
 
 SmoothThermocouple::SmoothThermocouple(
   Thermocouple* origin,
-  const int factor
+  const int smoothingFactor
 ) {
   this->origin = origin;
-  this->factor = factor;
+  setSmoothingFactor(smoothingFactor);
 }
 
 SmoothThermocouple::~SmoothThermocouple() {
@@ -40,7 +40,12 @@ double SmoothThermocouple::readFahrenheit() {
 double SmoothThermocouple::smoothe(
   const double input, const double data
 ) {
-  return (this->factor > 1) && (data != 0) ?
-    (data * (this->factor - 1) + input) / this->factor :
-    input;
+  return (data == 0) ? input :
+    ((data * (this->smoothingFactor - 1) + input) / this->smoothingFactor);
+}
+
+inline void SmoothThermocouple::setSmoothingFactor(const int smoothingFactor) {
+  this->smoothingFactor = (smoothingFactor > THERMOCOUPLE_MIN_SMOOTHING_FACTOR) ?
+    smoothingFactor :
+    THERMOCOUPLE_DEFAULT_SMOOTHING_FACTOR;
 }
