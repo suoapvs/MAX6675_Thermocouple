@@ -25,6 +25,9 @@
   - added default value of constructor parameters;
   - updated documentation.
 
+  v.2.0.2
+  - replaced "define" constants with "static const"
+
   https://github.com/YuriiSalimov/MAX6675_Thermocouple
 
   Created by Yurii Salimov, May, 2019.
@@ -35,12 +38,12 @@
 
 #include "Thermocouple.h"
 
-// Minimum smoothing factor.
-#define THERMOCOUPLE_MIN_SMOOTHING_FACTOR 2
-
 class SmoothThermocouple final : public Thermocouple {
 
   private:
+    // Minimum smoothing factor.
+    static const int MIN_SMOOTHING_FACTOR = 2;
+
     Thermocouple* origin;
     int smoothingFactor;
     double celsius = 0;
@@ -56,7 +59,7 @@ class SmoothThermocouple final : public Thermocouple {
     */
     SmoothThermocouple(
       Thermocouple* origin,
-      int smoothingFactor = THERMOCOUPLE_MIN_SMOOTHING_FACTOR
+      int smoothingFactor = MIN_SMOOTHING_FACTOR
     );
 
     /**

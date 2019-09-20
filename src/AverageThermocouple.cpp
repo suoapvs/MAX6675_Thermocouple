@@ -10,8 +10,8 @@ AverageThermocouple::AverageThermocouple(
   const int delayTimeInMillis
 ) {
   this->origin = origin;
-  this->readingsNumber = validate(readingsNumber, THERMOCOUPLE_DEFAULT_AVERAGE_READINGS_NUMBER);
-  this->delayTime = validate(delayTimeInMillis, THERMOCOUPLE_DEFAULT_AVERAGE_DELAY_TIME);
+  this->readingsNumber = validate(readingsNumber, DEFAULT_READINGS_NUMBER);
+  this->delayTime = validate(delayTimeInMillis, DEFAULT_DELAY_TIME);
 }
 
 AverageThermocouple::~AverageThermocouple() {
@@ -23,7 +23,7 @@ double AverageThermocouple::readCelsius() {
 }
 
 double AverageThermocouple::readKelvin() {
-  return average(&Thermocouple::readKelvin);
+return average(&Thermocouple::readKelvin);
 }
 
 double AverageThermocouple::readFahrenheit() {

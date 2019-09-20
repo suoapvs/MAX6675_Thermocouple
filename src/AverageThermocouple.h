@@ -32,6 +32,9 @@
   - added default value of constructor parameters;
   - updated documentation.
 
+  v.2.0.2
+  - replaced "define" constants with "static const"
+
   https://github.com/YuriiSalimov/MAX6675_Thermocouple
 
   Created by Yurii Salimov, May, 2019.
@@ -42,14 +45,14 @@
 
 #include "Thermocouple.h"
 
-// Default number of average readings.
-#define THERMOCOUPLE_DEFAULT_AVERAGE_READINGS_NUMBER 10
-// Default delay time of average readings.
-#define THERMOCOUPLE_DEFAULT_AVERAGE_DELAY_TIME 1
-
 class AverageThermocouple final : public Thermocouple {
 
   private:
+    // Default number of average readings.
+    static const int DEFAULT_READINGS_NUMBER = 10;
+    // Default delay time of average readings.
+    static const int DEFAULT_DELAY_TIME = 1;
+
     Thermocouple* origin;
     int readingsNumber;
     int delayTime;
@@ -64,8 +67,8 @@ class AverageThermocouple final : public Thermocouple {
     */
     AverageThermocouple(
       Thermocouple* origin,
-      int readingsNumber = THERMOCOUPLE_DEFAULT_AVERAGE_READINGS_NUMBER,
-      int delayTimeInMillis = THERMOCOUPLE_DEFAULT_AVERAGE_DELAY_TIME
+      int readingsNumber = DEFAULT_READINGS_NUMBER,
+      int delayTimeInMillis = DEFAULT_DELAY_TIME
     );
 
     /**
