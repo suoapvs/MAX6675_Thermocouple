@@ -4,7 +4,7 @@
 	and reading a temperature in Celsius, Fahrenheit and Kelvin.
 
 	Instantiation:
-	Thermocouple* thermocouple = new MAX6675_Thermocouple(
+		Thermocouple* thermocouple = new MAX6675_Thermocouple(
 		SCK_pin, CS_pin, SO_pin
 	);
 
@@ -27,8 +27,8 @@
 	- removed methods for averaging result.
 
 	v.2.0.1
-  - optimized celsiusToFahrenheit() method;
-  - updated documentation.
+	- optimized celsiusToFahrenheit() method;
+	- updated documentation.
 
 	https://github.com/YuriiSalimov/MAX6675_Thermocouple
 
