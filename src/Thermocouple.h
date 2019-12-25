@@ -6,6 +6,9 @@
 	v.2.0.0
 	- created
 
+	v.2.0.2
+	- added virtual destructor
+
 	https://github.com/YuriiSalimov/MAX6675_Thermocouple
 
 	Created by Yurii Salimov, May, 2019.
@@ -23,6 +26,12 @@
 class Thermocouple {
 
 	public:
+		/**
+      Destructor
+      Deletes Thermocouple instance.
+    */
+		virtual ~Thermocouple() {};
+
 		/**
 			Reads a temperature in Celsius from the thermocouple.
 
